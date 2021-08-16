@@ -60,18 +60,29 @@ export function WeightProvider({children}){
   }
 
   async function uploadData({userId, weight}){
+    let time = firebase.firestore.Timestamp.fromDate(new Date());
      await db.collection("weights")
        .doc(userId)
        .collection("weight")
        .add({
          weight: weight,
-         time: firebase.firestore.Timestamp.fromDate(new Date()),
+         time: time,
+       }).then((r) => {
+          let newwt = [
+            {
+              weight: weight,
+              time: time,
+            },
+          ];
+          let res = formatData(newwt);
+          return res;
        });
   }
 
   const value = {
       getData,
-      uploadData
+      uploadData,
+      formatData
   }
 
   return (

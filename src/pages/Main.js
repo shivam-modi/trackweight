@@ -9,11 +9,12 @@ import { useHistory } from 'react-router-dom'
 export default function Main() {
    const {currentUser, logOut} = useAuth()
    const userId = currentUser.uid
-   const {getData, uploadData} = useWeight()
+   const {getData, uploadData, formatData} = useWeight()
    const [weights, setWeights] = useState([]) 
    const [weight, setWeight] = useState(0)
    const [addNew, setAddNew] = useState(false)
    const history = useHistory()
+   const [isUploading, setIsUploading] = useState(false);
    let a = 0, b = 0;
    
    useEffect(() => {
@@ -22,13 +23,14 @@ export default function Main() {
      }).then(res => {
        setWeights(res)
      });
-   }, [weights])
-
+   }, [isUploading, weights])
+   
    function handleSubmit(e){
      e.preventDefault()
      try {
+       setIsUploading(true);
        uploadData({ weight: weight, userId: userId });
-       getData({ userId: userId });
+       setIsUploading(false)
        setWeight(0)
        setAddNew(false);
      } catch (error) {
