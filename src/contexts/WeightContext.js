@@ -25,15 +25,15 @@ export function WeightProvider({children}){
   ];
 
   function formatData(weights){
-    let allWeights = weights.map((item) => {
-      let weight = item.weight;
-      let t = item.time.toDate();
+    let allWeights = weights.map((key, data) => {
+      let weight = data.weight;
+      let t = data.time.toDate();
       let tm = t.toLocaleTimeString()
       let date = t.getDate()
       let month = months[t.getMonth()]
       let year = t.getFullYear()
       let time = `${date}, ${month} ${year} ${tm}`
-      let res = {weight, time}
+      let res = {key, weight, time}
       return res;
     })
 
@@ -49,7 +49,7 @@ export function WeightProvider({children}){
        .get()
        .then((snapshot) => {
          let wts = [];
-         snapshot.forEach((doc) => wts.push(doc.data()));
+         snapshot.forEach((doc) => wts.push({key: doc.key, data: doc.data()}));
          res = formatData(wts)
         //  console.log(res)
         //  setWeights(res);

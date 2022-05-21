@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Container, Form, Row, Button, Col, FormLabel, Table, Alert } from 'react-bootstrap'
 import { useAuth } from '../contexts/AuthContext'
-import {FaPlus} from 'react-icons/fa'
+import {FaPlus, FaEdit, FaTrash} from 'react-icons/fa'
 import { useWeight } from '../contexts/WeightContext'
 import { useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
@@ -47,6 +47,10 @@ export default function Main() {
      }
    }
    
+   function removeItem(e){
+     return;
+   }
+
     return (
       <div className="ctr">
         <Container className="main bgr">
@@ -115,6 +119,7 @@ export default function Main() {
                           </Row>
                         </td>
                         <td>{wt.time}</td>
+                        <td><Col><FaTrash onClick={removeItem}/>  <FaEdit/></Col></td>
                       </tr>
                     );
                   })
